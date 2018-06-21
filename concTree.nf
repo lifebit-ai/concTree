@@ -31,7 +31,10 @@
 
 
 params.name          = "Concatenated MSAs and Consensus Phylogentic Trees Analysis"
-params.input         = "$baseDir/tutorial/data/*.fa"
+//params.input         = "$baseDir/tutorial/data/*.fa"
+params.input="$baseDir/tutorial/data/"
+params.inputExtension="fa"
+allInput="${params.input}/*.${params.inputExtension}"
 params.output        = "$baseDir/tutorial/results"
 params.bootstraps    = 100
 params.alignments    = 100
@@ -59,7 +62,7 @@ bootstraps = params.bootstraps as int
  */
  
 Channel
-    .fromPath( params.input )
+    .fromPath( allInput )
     .ifEmpty { error "Cannot find any input sequence files matching: ${params.input}" }
     .map { file -> tuple( file.baseName, file ) }
     .set { datasets }
